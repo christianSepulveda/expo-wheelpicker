@@ -1,0 +1,8 @@
+{
+  "android": {
+    "package": "com.iamchristiandev.expowheelpicker"
+  },
+  "ios": {
+    "bundleIdentifier": "com.iamchristiandev.expowheelpicker"
+  }
+}

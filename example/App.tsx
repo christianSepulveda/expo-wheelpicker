@@ -1,73 +1,80 @@
-import { useEvent } from 'expo';
-import ExpoWheelpicker, { ExpoWheelpickerView } from 'expo-wheelpicker';
-import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+
+import ExpoWheelpicker from "expo-wheelpicker";
+import type { PickerItem } from "expo-wheelpicker";
 
 export default function App() {
-  const onChangePayload = useEvent(ExpoWheelpicker, 'onChange');
+  const [visible, setVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<PickerItem>();
+
+  const changeModalState = () => setVisible(!visible);
+
+  const onSelectItem = (item: PickerItem) => {
+    setSelectedItem(item);
+    changeModalState();
+  };
+
+  const options: PickerItem[] = [
+    { isSelected: false, label: "Option 1", value: "option1" },
+    { isSelected: false, label: "Option 2", value: "option2" },
+    { isSelected: false, label: "Option 3", value: "option3" },
+    { isSelected: false, label: "Option 4", value: "option4" },
+    { isSelected: false, label: "Option 5", value: "option5" },
+    { isSelected: false, label: "Option 6", value: "option6" },
+    { isSelected: false, label: "Option 7", value: "option7" },
+    { isSelected: false, label: "Option 8", value: "option8" },
+    { isSelected: false, label: "Option 9", value: "option9" },
+  ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.container}>
-        <Text style={styles.header}>Module API Example</Text>
-        <Group name="Constants">
-          <Text>{ExpoWheelpicker.PI}</Text>
-        </Group>
-        <Group name="Functions">
-          <Text>{ExpoWheelpicker.hello()}</Text>
-        </Group>
-        <Group name="Async functions">
-          <Button
-            title="Set value"
-            onPress={async () => {
-              await ExpoWheelpicker.setValueAsync('Hello from JS!');
-            }}
-          />
-        </Group>
-        <Group name="Events">
-          <Text>{onChangePayload?.value}</Text>
-        </Group>
-        <Group name="Views">
-          <ExpoWheelpickerView
-            url="https://www.example.com"
-            onLoad={({ nativeEvent: { url } }) => console.log(`Loaded: ${url}`)}
-            style={styles.view}
-          />
-        </Group>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+    <View style={styles.container}>
+      <Text style={styles.header}>Expo WheelPicker Example</Text>
 
-function Group(props: { name: string; children: React.ReactNode }) {
-  return (
-    <View style={styles.group}>
-      <Text style={styles.groupHeader}>{props.name}</Text>
-      {props.children}
+      <TouchableOpacity onPress={changeModalState} style={styles.button}>
+        <Text style={styles.buttonLabel}>Show WheelPicker Modal</Text>
+      </TouchableOpacity>
+
+      <Text
+        style={styles.selectedLabel}
+      >{`Last Selected: ${selectedItem ? selectedItem.label : "Nothing :("}`}</Text>
+
+      <ExpoWheelpicker
+        items={options}
+        visible={visible}
+        visibleCount={5}
+        setVisible={changeModalState}
+        handleSelectItem={onSelectItem}
+      />
     </View>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   header: {
     fontSize: 30,
-    margin: 20,
+    marginTop: 70,
   },
-  groupHeader: {
-    fontSize: 20,
-    marginBottom: 20,
-  },
-  group: {
-    margin: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-  },
+
   container: {
     flex: 1,
-    backgroundColor: '#eee',
+    padding: 20,
+    alignItems: "center",
+    backgroundColor: "#eee",
   },
-  view: {
-    flex: 1,
-    height: 200,
+
+  button: {
+    padding: 14,
+    borderRadius: 10,
+    marginTop: "10%",
+    backgroundColor: "purple",
   },
-};
+
+  buttonLabel: {
+    fontWeight: "600",
+    color: "white",
+    fontSize: 16,
+  },
+
+  selectedLabel: { marginTop: 40, fontWeight: "500" },
+});
