@@ -21,9 +21,9 @@ const ExpoWheelpickerView = (props: ExpoWheelPickerModalProps) => {
   // -------- Animations global config --------
   const VISIBLE_COUNT_RAW = props.visibleCount ?? 5;
   const VISIBLE_COUNT =
-    VISIBLE_COUNT_RAW % 2 === 0 ? VISIBLE_COUNT_RAW + 1 : VISIBLE_COUNT_RAW; // forzar impar
-  const CONTAINER_HEIGHT = VISIBLE_COUNT * ITEM_HEIGHT; // alto real del picker
-  const TOP_PADDING = CONTAINER_HEIGHT / 2 - ITEM_HEIGHT / 2; // para centrar franja
+    VISIBLE_COUNT_RAW % 2 === 0 ? VISIBLE_COUNT_RAW + 1 : VISIBLE_COUNT_RAW;
+  const CONTAINER_HEIGHT = VISIBLE_COUNT * ITEM_HEIGHT; // real picker height
+  const TOP_PADDING = CONTAINER_HEIGHT / 2 - ITEM_HEIGHT / 2; // this center the highlight
 
   const MIN_SCALE = props.minScale ?? 0.75;
   const MIN_OPACITY = props.minOpacity ?? 0.35;
@@ -32,9 +32,10 @@ const ExpoWheelpickerView = (props: ExpoWheelPickerModalProps) => {
     Math.min(Math.max(n, min), max);
 
   // -------- refs / states --------
+  const lastSelectedRef = useRef(0);
   const flatListRef = useRef<Animated.FlatList<PickerItem>>(null);
-  const scrollYAnim = useRef(new Animated.Value(0)).current; // para animaciones (native driver)
-  const [selectedIndex, setSelectedIndex] = useState(0); // estado lógico
+  const scrollYAnim = useRef(new Animated.Value(0)).current;
+  const [selectedIndex, setSelectedIndex] = useState(0); // logic state
 
   // Snap for android devices
   const SNAP_OFFSETS = useMemo(
@@ -51,26 +52,32 @@ const ExpoWheelpickerView = (props: ExpoWheelPickerModalProps) => {
     []
   );
 
+  //this one focus the picker to the last selected item
   useEffect(() => {
     if (!props.visible || props.items.length === 0) return;
 
-    const i = clamp(props.initialIndex ?? 0, 0, props.items.length - 1);
+    const target = clamp(
+      lastSelectedRef.current ?? props.initialIndex ?? 0,
+      0,
+      props.items.length - 1
+    );
+
     InteractionManager.runAfterInteractions(() => {
       requestAnimationFrame(() => {
-        flatListRef.current?.scrollToIndex({ index: i, animated: false });
-        setSelectedIndex(i);
+        flatListRef.current?.scrollToIndex({ index: target, animated: false });
+        setSelectedIndex(target);
         scrollYAnim.stopAnimation();
-
         // @ts-ignore
-        scrollYAnim.setValue(i * ITEM_HEIGHT);
+        scrollYAnim.setValue(target * ITEM_HEIGHT);
       });
     });
-  }, [props.visible, props.items.length, props.initialIndex, scrollYAnim]);
+  }, [props.visible, props.items.length, scrollYAnim]);
 
   const onMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const y = e.nativeEvent.contentOffset.y;
     const idx = clamp(Math.round(y / ITEM_HEIGHT), 0, props.items.length - 1);
     if (idx !== selectedIndex) setSelectedIndex(idx);
+    lastSelectedRef.current = idx; // save the index of the last item selected
   };
 
   const setSelectedItem = () => {

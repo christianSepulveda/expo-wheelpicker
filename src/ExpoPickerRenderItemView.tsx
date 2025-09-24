@@ -11,7 +11,6 @@ type Props = {
   selectedIndex: number;
   itemLabelColor?: string;
 
-  // animación y parámetros del wheel
   scrollYAnim: Animated.Value;
   itemHeight: number;
   visibleCount: number;
@@ -32,9 +31,9 @@ const ExpoPickerRenderItemView = ({
 }: Props) => {
   const isSelected = itemIndex === selectedIndex;
 
-  // IMPORTANTE: ESTE USEMEMO SE ENCARGA DE ANIMAR EL ITEM SEGÚN SU POSICIÓN DENTRO DEL PICKER
+  // This useMemo computes the animated style for each wheel item based on its distance from the center of the picker.
   const { inputRange, scaleRange, opacityRange } = useMemo(() => {
-    const half = Math.floor(visibleCount / 2); // distancia máxima desde el centro
+    const half = Math.floor(visibleCount / 2);
     const input: number[] = [];
     const scaleOut: number[] = [];
     const opacityOut: number[] = [];

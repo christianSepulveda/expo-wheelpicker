@@ -64,16 +64,14 @@ export const ExpoWheelpickerStyles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingTop: 6,
     paddingBottom: Platform.select({ ios: 12, android: 16 }),
-    // sombra iOS
+
     shadowColor: "#000",
     shadowOpacity: 0.15,
     shadowRadius: 12,
     shadowOffset: { width: 0, height: -2 },
-    // sombra Android
     elevation: 12,
   },
 
-  // RENDER ITEM STYLES
   itemLabel: {
     width: 400,
     height: 45,
