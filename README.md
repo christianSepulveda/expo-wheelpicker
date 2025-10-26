@@ -50,9 +50,9 @@ export default function App() {
 ```
 
 #### WheelPicker Parameters
-| Parameter            | Type                         | Description                                                                 |
-| :------------------- | :---------------------------- | :-------------------------------------------------------------------------- |
-| `visible`            | `boolean`                     | **Required**. Controls the visibility of the modal.                         |
+| Parameter            | Type                          | Description                                                                  |
+| :------------------- | :---------------------------- | :--------------------------------------------------------------------------- |
+| `visible`            | `boolean`                     | **Required**. Controls the visibility of the modal.                          |
 | `items`              | `PickerItem[]`                | **Required**. Array of picker items, each with a `label` and `value`.        |
 | `setVisible`         | `() => void`                  | **Required**. Callback to hide the modal (e.g. `() => setVisible(false)`).   |
 | `handleSelectItem`   | `(item: PickerItem) => void`  | **Required**. Callback fired when the user confirms the selected item.       |
@@ -60,10 +60,10 @@ export default function App() {
 | `title`              | `string`                      | Optional. Text displayed at the top of the modal.                            |
 | `selectLabel`        | `string`                      | Optional. Text for the confirm/selection button.                             |
 | `cancelLabel`        | `string`                      | Optional. Text for the cancel button.                                        |
-| `selectButtonColor`  | `string`                      | Optional. Color of the confirm/selection button text.                        |
-| `cancelButtonColor`  | `string`                      | Optional. Color of the cancel button text.                                   |
-| `itemLabelColor`     | `string`                      | Optional. Color of the label text for each wheel item.                       |
-| `highLightColor`     | `string`                      | Optional. Color of the highlight indicator showing the selected row.         |
+| `selectButtonColor`  | `string (can use rgba)`       | Optional. Color of the confirm/selection button text.                        |
+| `cancelButtonColor`  | `string (can use rgba)`       | Optional. Color of the cancel button text.                                   |
+| `itemLabelColor`     | `string (can use rgba)`       | Optional. Color of the label text for each wheel item.                       |
+| `highLightColor`     | `string (can use rgba)`       | Optional. Color of the highlight indicator showing the selected row.         |
 | `visibleCount`       | `number`                      | Optional. Number of items visible in the wheel at one time.                  |
 | `minScale`           | `number`                      | Optional. Minimum scale factor for non-selected items. Default: `0.75`.      |
 | `minOpacity`         | `number`                      | Optional. Minimum opacity for non-selected items. Default: `0.35`.           |
@@ -80,6 +80,8 @@ export default function App() {
 ```bash
 .
 ├─ src/
+│  ├─ ExpoPickerButtonGroupView.tsx
+│  ├─ ExpoPickerContainerView.tsx
 │  ├─ ExpoPickerRenderItemView.tsx
 │  ├─ ExpoWheelpickerStyles.ts
 │  ├─ ExpoWheelpickerView.tsx
