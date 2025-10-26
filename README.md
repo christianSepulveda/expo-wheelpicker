@@ -5,17 +5,17 @@ A bottom-sheet style wheel picker component for React Native and Expo.
 It provides a scrollable “wheel” selector inside a modal that slides up from the bottom of the screen with a dark semi-transparent backdrop.
 
 This is a JavaScript-only implementation. It runs in Expo Go without any native code or custom builds.
-## Component API
 
-#### PickerItem
-Each item displayed in the wheel is defined by a `PickerItem`.  
-This type lets you specify both the text shown in the picker and the associated value returned when the user makes a selection.
+## Installation
+yarn:
+```bash
+yarn add expo-wheelpicker 
+```
 
-| Property     | Type     | Description                                                                 |
-| :----------- | :------  | :-------------------------------------------------------------------------- |
-| `label`      | `string` | Text shown to the user in the wheel.                                        |
-| `value`      | `string` | Value associated with the item; returned by the selection callback.         |
-| `isSelected` | `boolean` | Indicates whether this item is currently selected. Managed internally, but can be used for custom styling if needed. |
+npm:
+```bash
+npm install expo-wheelpicker
+```
 
 #### Example
 ```tsx
@@ -48,6 +48,18 @@ export default function App() {
   );
 }
 ```
+
+## Component API
+
+#### PickerItem
+Each item displayed in the wheel is defined by a `PickerItem`.  
+This type lets you specify both the text shown in the picker and the associated value returned when the user makes a selection.
+
+| Property     | Type     | Description                                                                 |
+| :----------- | :------  | :-------------------------------------------------------------------------- |
+| `label`      | `string` | Text shown to the user in the wheel.                                        |
+| `value`      | `string` | Value associated with the item; returned by the selection callback.         |
+| `isSelected` | `boolean` | Indicates whether this item is currently selected. Managed internally, but can be used for custom styling if needed. |
 
 #### WheelPicker Parameters
 | Parameter            | Type                          | Description                                                                  |
